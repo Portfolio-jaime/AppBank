@@ -1,0 +1,11 @@
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.empty {
+  color: var(--text-muted, #8b949e);
+  padding: 2rem;
+  text-align: center;
+}

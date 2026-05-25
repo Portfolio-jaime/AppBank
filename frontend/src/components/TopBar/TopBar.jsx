@@ -1,13 +1,15 @@
-import { useState } from 'react'
 import styles from './TopBar.module.css'
 
 const MODES = [
-  { id: 'vehicular', label: 'Vehicular' },
+  { id: 'simulate', label: 'Simular' },
+  { id: 'compare', label: 'Comparar' },
 ]
 
-export default function TopBar() {
-  const [mode, setMode] = useState('vehicular')
-
+/**
+ * TopBar — app header with mode toggle.
+ * @param {{ mode: string, onModeChange: (mode: string) => void }} props
+ */
+export default function TopBar({ mode, onModeChange }) {
   return (
     <header className={styles.topbar}>
       <span className={styles.title}>CréditoIA</span>
@@ -16,7 +18,7 @@ export default function TopBar() {
           <button
             key={m.id}
             className={`${styles.modeBtn}${mode === m.id ? ' ' + styles.active : ''}`}
-            onClick={() => setMode(m.id)}
+            onClick={() => onModeChange(m.id)}
           >
             {m.label}
           </button>

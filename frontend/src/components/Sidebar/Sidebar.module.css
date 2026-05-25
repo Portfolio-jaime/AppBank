@@ -11,11 +11,30 @@
   padding: 0.5rem;
   border-radius: 4px;
   color: var(--text-muted, var(--muted));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
 }
 
 .item.active {
   background: rgba(230, 168, 23, 0.125);
   color: var(--text);
+}
+
+.itemLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compareCheck {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .newBtn {
