@@ -1,0 +1,12 @@
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.canvas {
+  width: 100% !important;
+  max-height: 280px;
+}

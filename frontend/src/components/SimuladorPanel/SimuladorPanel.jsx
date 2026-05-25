@@ -2,6 +2,8 @@ import { useContext } from 'react'
 import { SimContext } from '../../App.jsx'
 import KPIGrid from '../KPIGrid/KPIGrid.jsx'
 import CuotaDesglose from '../CuotaDesglose/CuotaDesglose.jsx'
+import AmortizationChart from '../AmortizationChart/AmortizationChart.jsx'
+import AmortizationTable from '../AmortizationTable/AmortizationTable.jsx'
 import styles from './SimuladorPanel.module.css'
 
 /**
@@ -32,6 +34,8 @@ export default function SimuladorPanel({ simulacionId }) {
       </button>
       <KPIGrid resultado={sim.resultado} params={sim.params} />
       <CuotaDesglose resultado={sim.resultado} />
+      <AmortizationChart tabla={sim.resultado.tabla} />
+      <AmortizationTable tabla={sim.resultado.tabla} />
     </div>
   )
 }

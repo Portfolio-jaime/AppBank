@@ -1,0 +1,50 @@
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.yearRow {
+  background: var(--bg);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.th {
+  background: var(--surface);
+  color: var(--text-muted, #8b949e);
+  padding: 0.4rem 0.75rem;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.th:first-child {
+  text-align: left;
+}
+
+.td {
+  padding: 0.4rem 0.75rem;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.td:first-child {
+  text-align: left;
+}
+
+.accent {
+  color: var(--accent);
+}
