@@ -3,6 +3,7 @@ import useSimulaciones from './hooks/useSimulaciones.js'
 import styles from './App.module.css'
 import TopBar from './components/TopBar/TopBar.jsx'
 import Sidebar from './components/Sidebar/Sidebar.jsx'
+import VehicularForm from './components/VehicularForm/VehicularForm.jsx'
 
 export const SimContext = createContext(null)
 
@@ -17,7 +18,7 @@ export default function App() {
         </div>
         <Sidebar />
         <main className={styles.main}>
-          {/* Main content area — populated in later tasks */}
+          <VehicularForm />
         </main>
         <div>
           {/* AIInsightPanel placeholder — populated in a later task */}
