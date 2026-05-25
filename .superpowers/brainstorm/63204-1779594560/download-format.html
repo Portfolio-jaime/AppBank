@@ -1,0 +1,28 @@
+<h2>¿Qué formatos de descarga necesitas?</h2>
+<p class="subtitle">Puedes seleccionar varios</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="pdf" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>PDF — Resumen ejecutivo</h3>
+      <p>Página con nombre del cliente, parámetros del crédito, KPIs principales y tabla de amortización completa. Listo para imprimir o enviar.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="excel" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Excel / CSV — Datos crudos</h3>
+      <p>Hoja de cálculo con cada cuota, interés, abono y saldo mes a mes. Ideal para análisis adicional o importar a otro sistema.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="share" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Compartir — Link o JSON</h3>
+      <p>Exporta los parámetros como URL (con query params) o JSON para guardar y retomar la simulación exacta más tarde.</p>
+    </div>
+  </div>
+</div>

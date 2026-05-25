@@ -1,0 +1,53 @@
+<h2>Componentes de la cuota mensual real</h2>
+<p class="subtitle">Los bancos colombianos cobran varios rubros además de capital + intereses — selecciona los que quieres modelar</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="vida" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Seguro de vida deudor</h3>
+      <p>Obligatorio en todos los bancos. Se calcula sobre el saldo vigente (~0.03–0.05% mensual). Baja a medida que el saldo baja. El banco lo cobra directamente.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="todoriesgo" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Seguro todo riesgo (SOAT + póliza)</h3>
+      <p>Obligatorio si el banco lo exige como colateral. Valor fijo mensual (~$250.000–$450.000 según valor del vehículo). El usuario puede ingresar el monto real.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="admin" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Cuota de administración / manejo</h3>
+      <p>Algunos bancos (ej. Banco Popular, Caja Social) cobran un cargo fijo mensual por administración del crédito (~$10.000–$25.000). Campo opcional, editable.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="incendio" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Seguro incendio y terremoto</h3>
+      <p>Menos común en vehículos pero algunos bancos lo exigen. Monto muy pequeño (~$5.000–$15.000 mensuales). Campo opcional.</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:20px;background:rgba(230,168,23,0.08);border:1px solid rgba(230,168,23,0.3);border-radius:8px;padding:14px">
+  <div style="font-size:0.75rem;color:#e6a817;font-weight:600;margin-bottom:8px">📊 Así se vería la cuota total desglosada</div>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:6px;font-size:0.8rem">
+    <span style="color:#e6edf3">Cuota financiera (capital + interés)</span>
+    <span style="color:#e6edf3;font-family:monospace;text-align:right">$1.984.320</span>
+    <span style="color:#7d8590">+ Seguro de vida deudor (~0.04% saldo)</span>
+    <span style="color:#7d8590;font-family:monospace;text-align:right">$47.996</span>
+    <span style="color:#7d8590">+ Seguro todo riesgo</span>
+    <span style="color:#7d8590;font-family:monospace;text-align:right">$320.000</span>
+    <span style="color:#7d8590">+ Cuota de administración</span>
+    <span style="color:#7d8590;font-family:monospace;text-align:right">$15.000</span>
+    <div style="grid-column:1/-1;border-top:1px solid #30363d;margin:4px 0"></div>
+    <span style="color:#e6a817;font-weight:600">Cuota total real al banco</span>
+    <span style="color:#e6a817;font-family:monospace;text-align:right;font-weight:600">$2.367.316</span>
+  </div>
+</div>

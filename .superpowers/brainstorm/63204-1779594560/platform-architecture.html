@@ -1,0 +1,170 @@
+<h2>CréditoIA — Arquitectura de la plataforma</h2>
+<p class="subtitle">Visión completa: 4 módulos de crédito + IA dual mode + backend seguro</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+
+  <!-- Stack -->
+  <div style="background:var(--surface,#161b22);border:1px solid var(--border,#30363d);border-radius:10px;padding:16px">
+    <div class="label" style="margin-bottom:12px">🛠 Stack técnico</div>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:0.82rem">
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#0d1117;border-radius:6px">
+        <span style="color:#7d8590">Frontend</span>
+        <span style="color:#e6edf3">Vite + React 18</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#0d1117;border-radius:6px">
+        <span style="color:#7d8590">Backend</span>
+        <span style="color:#e6edf3">Node.js + Express</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(230,168,23,0.1);border:1px solid rgba(230,168,23,0.3);border-radius:6px">
+        <span style="color:#7d8590">IA</span>
+        <span style="color:#e6a817">Claude API (Anthropic)</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#0d1117;border-radius:6px">
+        <span style="color:#7d8590">Gráficas</span>
+        <span style="color:#e6edf3">Chart.js</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#0d1117;border-radius:6px">
+        <span style="color:#7d8590">PDF / Excel</span>
+        <span style="color:#e6edf3">jsPDF + SheetJS</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#0d1117;border-radius:6px">
+        <span style="color:#7d8590">Persistencia</span>
+        <span style="color:#e6edf3">localStorage</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fases -->
+  <div style="background:var(--surface,#161b22);border:1px solid var(--border,#30363d);border-radius:10px;padding:16px">
+    <div class="label" style="margin-bottom:12px">📅 Fases de entrega</div>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:0.82rem">
+      <div style="padding:8px 10px;background:rgba(46,160,67,0.1);border:1px solid rgba(46,160,67,0.3);border-radius:6px">
+        <div style="color:#2ea043;font-weight:600;margin-bottom:2px">Fase 1 — Vehicular + IA base</div>
+        <div style="color:#7d8590;font-size:0.75rem">Dashboard, 13 bancos CO, score, eléctrico/híbrido, abonos, seguros, PDF/Excel, chat IA vehicular</div>
+      </div>
+      <div style="padding:8px 10px;background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.2);border-radius:6px">
+        <div style="color:#58a6ff;font-weight:600;margin-bottom:2px">Fase 2 — Hipotecario + Consumo</div>
+        <div style="color:#7d8590;font-size:0.75rem">UVR, VIS/No VIS, Mi Casa Ya, libre inversión, CET</div>
+      </div>
+      <div style="padding:8px 10px;background:rgba(230,168,23,0.08);border:1px solid rgba(230,168,23,0.2);border-radius:6px">
+        <div style="color:#e6a817;font-weight:600;margin-bottom:2px">Fase 3 — Tarjeta + IA completa</div>
+        <div style="color:#7d8590;font-size:0.75rem">Deuda rotativa, tasa usura, IA multi-crédito, comparación cross-producto</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout de la app -->
+  <div style="background:var(--surface,#161b22);border:1px solid var(--border,#30363d);border-radius:10px;padding:16px;grid-column:1/-1">
+    <div class="label" style="margin-bottom:12px">🖥 Layout — Modo dual Simulación ↔ IA</div>
+    <div style="background:#0d1117;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px">
+
+      <!-- Top bar -->
+      <div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="background:#e6a817;border-radius:4px;padding:2px 8px;font-size:10px;color:#000;font-weight:700">CréditoIA</div>
+          <div style="display:flex;gap:4px">
+            <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">🚗 Vehicular</div>
+            <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">🏠 Hipotecario</div>
+            <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">💳 Consumo</div>
+            <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">💰 Tarjeta</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">⊞ Comparar</div>
+          <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">⬇ PDF</div>
+          <div style="background:#1c2330;border:1px solid #30363d;border-radius:4px;padding:2px 8px;font-size:9px;color:#7d8590">⬇ Excel</div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div style="display:flex;gap:8px;height:200px">
+
+        <!-- Sidebar con toggle -->
+        <div style="width:180px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <!-- Mode toggle -->
+          <div style="display:flex;background:#0d1117;border-radius:6px;padding:2px;gap:2px;margin-bottom:4px">
+            <div style="flex:1;background:#e6a817;border-radius:4px;text-align:center;padding:3px 0;font-size:8px;color:#000;font-weight:600">⚙ Parámetros</div>
+            <div style="flex:1;text-align:center;padding:3px 0;font-size:8px;color:#7d8590">🤖 Chat IA</div>
+          </div>
+          <div style="background:#0d1117;border-radius:4px;height:9px;width:90%"></div>
+          <div style="background:#0d1117;border-radius:4px;height:9px;width:70%"></div>
+          <div style="background:#0d1117;border-radius:4px;height:20px;width:100%"></div>
+          <div style="background:#0d1117;border-radius:4px;height:9px;width:80%"></div>
+          <div style="background:#0d1117;border-radius:4px;height:9px;width:60%"></div>
+          <div style="background:#e6a817;border-radius:4px;height:20px;width:100%;margin-top:auto;opacity:0.8"></div>
+        </div>
+
+        <!-- Main panels -->
+        <div style="flex:1;display:flex;gap:8px">
+          <!-- Panel 1 -->
+          <div style="flex:1;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:8px;color:#e6a817">Escenario A — Bancolombia 1.05%</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #e6a817"></div>
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #58a6ff"></div>
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #2ea043"></div>
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #f85149"></div>
+            </div>
+            <div style="background:#0d1117;border-radius:4px;flex:1;border:1px solid #30363d;display:flex;align-items:flex-end;padding:4px;gap:1px">
+              <div style="background:#f85149;width:6px;border-radius:1px;height:80%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:20%;opacity:0.7"></div>
+              <div style="background:#f85149;width:6px;border-radius:1px;height:65%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:35%;opacity:0.7"></div>
+              <div style="background:#f85149;width:6px;border-radius:1px;height:45%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:55%;opacity:0.7"></div>
+              <div style="background:#f85149;width:6px;border-radius:1px;height:28%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:72%;opacity:0.7"></div>
+            </div>
+          </div>
+
+          <!-- Panel 2 -->
+          <div style="flex:1;background:#161b22;border:2px solid #2ea043;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:8px;color:#2ea043">Escenario B — Banco de Bogotá 1.02% ✓</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #e6a817"></div>
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #58a6ff"></div>
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #2ea043"></div>
+              <div style="background:#1c2330;border-radius:4px;height:30px;border-left:2px solid #f85149"></div>
+            </div>
+            <div style="background:#0d1117;border-radius:4px;flex:1;border:1px solid #30363d;display:flex;align-items:flex-end;padding:4px;gap:1px">
+              <div style="background:#f85149;width:6px;border-radius:1px;height:70%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:30%;opacity:0.7"></div>
+              <div style="background:#f85149;width:6px;border-radius:1px;height:50%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:50%;opacity:0.7"></div>
+              <div style="background:#f85149;width:6px;border-radius:1px;height:30%;opacity:0.7"></div>
+              <div style="background:#58a6ff;width:6px;border-radius:1px;height:70%;opacity:0.7"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Chat panel (collapsed/side) -->
+        <div style="width:130px;background:#161b22;border:1px solid #e6a817;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:4px;border-bottom:1px solid #30363d;padding-bottom:6px">
+            <div style="background:#e6a817;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px">🤖</div>
+            <div style="font-size:8px;color:#e6a817">Asesor IA</div>
+          </div>
+          <div style="background:#0d1117;border-radius:5px;padding:6px;font-size:7.5px;color:#7d8590;line-height:1.5">
+            Con Banco de Bogotá ahorras <span style="color:#2ea043">$9.6M</span> en intereses. Terminas <span style="color:#2ea043">12 meses antes</span>.
+          </div>
+          <div style="background:#0d1117;border-radius:5px;padding:6px;font-size:7.5px;color:#7d8590;line-height:1.5">
+            Tu puntaje 780 te da acceso a tasa preferencial en 3 bancos.
+          </div>
+          <div style="margin-top:auto;background:#0d1117;border:1px solid #30363d;border-radius:4px;padding:4px 6px;font-size:7px;color:#7d8590">
+            Pregunta algo... ↵
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Comparison bar -->
+      <div style="background:#161b22;border:1px solid #2ea04333;border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:9px;color:#2ea043">✓ Banco de Bogotá es el mejor escenario — $9.6M menos en intereses · 12 meses antes</div>
+        <div style="background:#2ea04322;border:1px solid #2ea043;border-radius:4px;padding:2px 10px;font-size:9px;color:#2ea043;cursor:pointer">Aplicar configuración</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<p style="margin-top:14px;text-align:center;font-size:0.85rem;color:var(--muted)">¿Esta visión representa lo que quieres construir? Confirma para escribir el spec completo.</p>

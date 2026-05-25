@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador Crédito Vehículo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #e6a817;
+    --accent2: #2ea043;
+    --accent3: #f85149;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-top: 8px;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .field input, .field select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .field input:focus, .field select:focus {
+    border-color: var(--accent);
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+
+  .toggle-row:last-child { border-bottom: none; margin-bottom: 0; }
+
+  .toggle-label { font-size: 0.85rem; }
+  .toggle-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  .toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--border);
+    border-radius: 24px;
+    transition: 0.3s;
+  }
+  .slider:before {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    left: 3px; bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .toggle input:checked + .slider { background: var(--accent2); }
+  .toggle input:checked + .slider:before { transform: translateX(20px); }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn:active { transform: scale(0.98); }
+
+  /* KPIs */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .kpi {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 14px;
+    border-left: 3px solid var(--accent);
+  }
+  .kpi.green { border-left-color: var(--accent2); }
+  .kpi.red { border-left-color: var(--accent3); }
+  .kpi.blue { border-left-color: #58a6ff; }
+
+  .kpi-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .kpi-value { font-family: var(--mono); font-size: 1.1rem; font-weight: 500; line-height: 1.2; }
+  .kpi-sub { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+
+  /* Timeline */
+  .timeline { position: relative; }
+
+  .year-block {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .year-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--surface2);
+    cursor: pointer;
+    gap: 8px;
+  }
+
+  .year-label {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .year-badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: #000;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+  .year-badge.abono { background: #1f6feb; color: white; }
+  .year-badge.fin { background: var(--accent2); color: white; }
+
+  .year-detail {
+    display: none;
+    padding: 12px 14px;
+    background: var(--surface);
+  }
+  .year-block.open .year-detail { display: block; }
+
+  .month-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr 1fr;
+    gap: 4px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+    align-items: center;
+  }
+  .month-row:last-child { border-bottom: none; }
+  .month-row.abono-row { background: rgba(31, 111, 235, 0.1); border-radius: 4px; padding: 5px 4px; }
+  .month-row.fin-row { background: rgba(46, 160, 67, 0.1); border-radius: 4px; }
+
+  .month-head {
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: var(--mono);
+  }
+
+  .col-r { text-align: right; font-family: var(--mono); }
+  .col-g { color: var(--accent2); text-align: right; font-family: var(--mono); }
+  .col-a { color: #58a6ff; text-align: right; font-family: var(--mono); }
+  .col-m { color: var(--muted); }
+
+  .abono-tag {
+    font-size: 0.65rem;
+    color: #58a6ff;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin: 12px 0 8px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  .savings-note {
+    background: rgba(46,160,67,0.1);
+    border: 1px solid rgba(46,160,67,0.3);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .chevron { transition: transform 0.2s; font-size: 0.8rem; color: var(--muted); }
+  .year-block.open .chevron { transform: rotate(180deg); }
+
+  #results { display: none; }
+
+  .separator { grid-column: 1 / -1; border-top: 1px dashed var(--border); padding-top: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Simulador Crédito Vehículo 🚗</h1>
+  <p>Proyección con abonos extraordinarios · Precisión mes a mes</p>
+</header>
+
+<div class="grid">
+  <!-- INPUTS -->
+  <div class="card">
+    <div class="card-title">⚙ Parámetros del crédito</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Valor del vehículo ($)</label>
+        <input type="number" id="valorVehiculo" value="120000000" step="1000000">
+      </div>
+      <div class="field">
+        <label>Ahorro previo a desembolso ($)</label>
+        <input type="number" id="ahorroInicial" value="5000000" step="500000">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Tasa mensual (%)</label>
+        <input type="number" id="tasaMensual" value="1.1" step="0.01">
+      </div>
+      <div class="field">
+        <label>Plazo (meses)</label>
+        <input type="number" id="plazo" value="84" min="12" max="120">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Mes de inicio del crédito</label>
+        <select id="mesInicio">
+          <option value="9">Septiembre 2026</option>
+          <option value="10">Octubre 2026</option>
+          <option value="8">Agosto 2026</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Devolución IVA (abono único)</label>
+        <input type="number" id="iva" value="6500000" step="100000">
+      </div>
+    </div>
+  </div>
+
+  <!-- ABONOS EXTRA -->
+  <div class="card">
+    <div class="card-title">💰 Abonos extraordinarios</div>
+
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Abono junio y diciembre</div>
+        <div class="toggle-sub">$1.000.000 cada semestre</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggleSemestral" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="field" style="margin: 10px 0 14px;">
+      <label>Monto abono semestral ($)</label>
+      <input type="number" id="montoSemestral" value="1000000" step="100000">
+    </div>
+
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Abono devolución IVA</div>
+        <div class="toggle-sub">Único · se aplica en junio 2027</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggleIva" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button class="btn" onclick="calcular()">▶ Calcular proyección</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="card">
+      <div class="card-title">📊 Resumen del crédito</div>
+      <div id="savingsNote" class="savings-note"></div>
+      <div class="kpi-grid" id="kpis"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 Tabla de amortización · toca un año para ver detalle</div>
+      <div id="timeline"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('es-CO');
+}
+function fmtShort(n) {
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+  return '$' + Math.round(n).toLocaleString('es-CO');
+}
+
+const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const MESES_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function calcular() {
+  const valorVehiculo = parseFloat(document.getElementById('valorVehiculo').value);
+  const ahorroInicial = parseFloat(document.getElementById('ahorroInicial').value);
+  const tasaMensual = parseFloat(document.getElementById('tasaMensual').value) / 100;
+  const plazoBase = parseInt(document.getElementById('plazo').value);
+  const mesInicio = parseInt(document.getElementById('mesInicio').value); // 1-based
+  const ivaAbono = parseFloat(document.getElementById('iva').value);
+  const toggleSemestral = document.getElementById('toggleSemestral').checked;
+  const toggleIva = document.getElementById('toggleIva').checked;
+  const montoSemestral = parseFloat(document.getElementById('montoSemestral').value);
+
+  const capital = valorVehiculo - ahorroInicial;
+  const cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, plazoBase)) / (Math.pow(1 + tasaMensual, plazoBase) - 1);
+
+  // Amortización con abonos
+  let saldo = capital;
+  let totalIntereses = 0;
+  let totalAbonos = 0;
+  let meses = [];
+  let mesActual = mesInicio - 1; // 0-based
+  let anioActual = 2026;
+  let mesContador = 0;
+  let ivaAplicado = false;
+
+  while (saldo > 0.5 && mesContador < 300) {
+    mesContador++;
+    const interes = saldo * tasaMensual;
+    const amortizacion = Math.min(cuota - interes, saldo);
+    const cuotaReal = interes + amortizacion;
+    let abono = 0;
+    let abonoTag = '';
+
+    // Avanzar mes
+    mesActual++;
+    if (mesActual > 11) { mesActual = 0; anioActual++; }
+
+    // ¿Abono semestral? Junio=5, Diciembre=11
+    if (toggleSemestral && (mesActual === 5 || mesActual === 11) && mesContador > 1) {
+      abono += montoSemestral;
+      abonoTag = mesActual === 5 ? 'Jun' : 'Dic';
+    }
+
+    // ¿Abono IVA? Junio 2027
+    if (toggleIva && !ivaAplicado && mesActual === 5 && anioActual === 2027) {
+      abono += ivaAbono;
+      ivaAplicado = true;
+      abonoTag += (abonoTag ? '+' : '') + 'IVA';
+    }
+
+    const abonoReal = Math.min(abono, saldo - amortizacion + amortizacion);
+    saldo = Math.max(0, saldo - amortizacion - abonoReal);
+    totalIntereses += interes;
+    totalAbonos += abonoReal;
+
+    meses.push({
+      mes: mesActual,
+      anio: anioActual,
+      cuota: cuotaReal,
+      interes,
+      amortizacion,
+      abono: abonoReal,
+      abonoTag,
+      saldo,
+      num: mesContador
+    });
+
+    if (saldo <= 0.5) break;
+  }
+
+  const totalPagado = meses.reduce((s, m) => s + m.cuota, 0) + totalAbonos;
+  const duracionAnios = Math.floor(mesContador / 12);
+  const duracionMeses = mesContador % 12;
+
+  // Sin abonos (referencia)
+  let saldo0 = capital;
+  let meses0 = 0;
+  let inter0 = 0;
+  while (saldo0 > 0.5 && meses0 < 300) {
+    meses0++;
+    const i = saldo0 * tasaMensual;
+    const a = Math.min(cuota - i, saldo0);
+    saldo0 = Math.max(0, saldo0 - a);
+    inter0 += i;
+  }
+  const ahorro = inter0 - totalIntereses - totalAbonos + totalAbonos; // neto abonos
+  const interesesAhorrados = inter0 - totalIntereses;
+  const mesesAhorrados = meses0 - mesContador;
+
+  // Render KPIs
+  const mesFinIdx = meses[meses.length - 1].mes;
+  const anioFin = meses[meses.length - 1].anio;
+  const fechaFin = `${MESES_FULL[mesFinIdx]} ${anioFin}`;
+
+  document.getElementById('savingsNote').innerHTML =
+    `✅ Con los abonos extraordinarios terminas <strong>${mesesAhorrados} meses antes</strong> y ahorras <strong>${fmt(interesesAhorrados)}</strong> en intereses vs. pagar solo la cuota fija durante ${meses0} meses.`;
+
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-label">Capital a financiar</div>
+      <div class="kpi-value">${fmt(capital)}</div>
+      <div class="kpi-sub">Vehículo − ahorro previo</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Cuota mensual fija</div>
+      <div class="kpi-value">${fmt(cuota)}</div>
+      <div class="kpi-sub">A ${plazoBase} meses</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Terminas en</div>
+      <div class="kpi-value">${duracionAnios > 0 ? duracionAnios + 'a ' : ''}${duracionMeses}m</div>
+      <div class="kpi-sub">${fechaFin} · ${mesContador} cuotas</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Total intereses pagados</div>
+      <div class="kpi-value">${fmt(totalIntereses)}</div>
+      <div class="kpi-sub">Total pagado: ${fmt(totalPagado)}</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total abonos extra</div>
+      <div class="kpi-value">${fmt(totalAbonos)}</div>
+      <div class="kpi-sub">Semestrales + IVA</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Intereses ahorrados</div>
+      <div class="kpi-value">${fmt(interesesAhorrados)}</div>
+      <div class="kpi-sub">vs. solo pagar cuota fija</div>
+    </div>
+  `;
+
+  // Agrupar por año
+  const porAnio = {};
+  meses.forEach(m => {
+    if (!porAnio[m.anio]) porAnio[m.anio] = [];
+    porAnio[m.anio].push(m);
+  });
+
+  let html = '';
+  Object.entries(porAnio).forEach(([anio, ms], idx) => {
+    const totalInt = ms.reduce((s,m) => s+m.interes, 0);
+    const totalAb = ms.reduce((s,m) => s+m.abono, 0);
+    const tieneAbonos = ms.some(m => m.abono > 0);
+    const esFin = ms[ms.length-1].saldo <= 0.5;
+    const saldoFin = ms[ms.length-1].saldo;
+    const pct = Math.round((1 - saldoFin/capital)*100);
+
+    let badge = `<span class="year-badge">${fmt(totalInt)} intereses</span>`;
+    if (tieneAbonos) badge += ` <span class="year-badge abono">${fmt(totalAb)} abonos</span>`;
+    if (esFin) badge += ` <span class="year-badge fin">✓ FIN</span>`;
+
+    let detalle = `
+      <div class="month-row">
+        <span class="month-head">Mes</span>
+        <span class="month-head col-r">Cuota</span>
+        <span class="month-head col-r">Interés</span>
+        <span class="month-head col-r">Abono</span>
+        <span class="month-head col-r">Saldo</span>
+      </div>`;
+
+    ms.forEach(m => {
+      const isAbono = m.abono > 0;
+      const isFin = m.saldo <= 0.5;
+      detalle += `
+        <div class="month-row ${isAbono ? 'abono-row' : ''} ${isFin ? 'fin-row' : ''}">
+          <span class="col-m">${MESES[m.mes]} ${m.anio}${m.abonoTag ? ' <span class="abono-tag">+'+m.abonoTag+'</span>' : ''}</span>
+          <span class="col-r">${fmt(m.cuota)}</span>
+          <span class="col-r" style="color:var(--accent3)">${fmt(m.interes)}</span>
+          <span class="col-a">${m.abono > 0 ? fmt(m.abono) : '—'}</span>
+          <span class="col-g">${fmt(m.saldo)}</span>
+        </div>`;
+    });
+
+    const open = idx === 0 ? 'open' : '';
+    html += `
+      <div class="year-block ${open}" onclick="toggleYear(this)">
+        <div class="year-header">
+          <span class="year-label">📅 ${anio} · ${ms.length} cuotas · Saldo: ${fmt(saldoFin)}</span>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${badge}<span class="chevron">▼</span></div>
+        </div>
+        <div class="year-detail">
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div style="font-size:0.7rem;color:var(--muted);margin-bottom:10px">${pct}% del capital pagado</div>
+          ${detalle}
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('timeline').innerHTML = html;
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleYear(el) {
+  el.classList.toggle('open');
+}
+
+// Auto-calcular al cargar
+window.onload = () => calcular();
+</script>
+</body>
+</html>

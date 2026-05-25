@@ -1,0 +1,85 @@
+<h2>¿Cómo quieres organizar la app?</h2>
+<p class="subtitle">Esto define la experiencia general — elige la estructura que mejor se adapte a tu uso</p>
+
+<div class="cards">
+  <div class="card" data-choice="single" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;border-radius:8px;height:200px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#e6a817;border-radius:4px;height:20px;width:60%;opacity:0.9"></div>
+      <div style="display:flex;gap:8px;flex:1">
+        <div style="background:#161b22;border-radius:6px;flex:1;border:1px solid #30363d;padding:8px;display:flex;flex-direction:column;gap:6px">
+          <div style="background:#30363d;border-radius:3px;height:10px;width:80%"></div>
+          <div style="background:#30363d;border-radius:3px;height:10px;width:60%"></div>
+          <div style="background:#30363d;border-radius:3px;height:10px;width:70%"></div>
+          <div style="background:#e6a817;border-radius:3px;height:24px;margin-top:auto;opacity:0.8"></div>
+        </div>
+        <div style="background:#161b22;border-radius:6px;flex:1;border:1px solid #30363d;padding:8px;display:flex;flex-direction:column;gap:4px">
+          <div style="background:#1c2330;border-radius:3px;height:12px;width:50%"></div>
+          <div style="background:#2ea043;border-radius:3px;height:18px;width:90%;opacity:0.7"></div>
+          <div style="background:#1c2330;border-radius:3px;height:12px;width:70%"></div>
+          <div style="background:#f85149;border-radius:3px;height:18px;width:80%;opacity:0.7"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Todo en una página</h3>
+      <p>Igual al simulador actual pero más completo. Parámetros arriba, resultados abajo. Rápido de usar, sin navegación.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="wizard" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;border-radius:8px;height:200px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:4px">
+        <div style="background:#e6a817;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:bold">1</div>
+        <div style="background:#30363d;height:2px;flex:1"></div>
+        <div style="background:#30363d;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#7d8590">2</div>
+        <div style="background:#30363d;height:2px;flex:1"></div>
+        <div style="background:#30363d;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#7d8590">3</div>
+        <div style="background:#30363d;height:2px;flex:1"></div>
+        <div style="background:#30363d;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#7d8590">4</div>
+      </div>
+      <div style="background:#161b22;border-radius:6px;flex:1;border:1px solid #30363d;padding:12px;display:flex;flex-direction:column;justify-content:center;gap:8px">
+        <div style="background:#e6a817;border-radius:3px;height:12px;width:40%;opacity:0.9"></div>
+        <div style="background:#30363d;border-radius:3px;height:10px;width:90%"></div>
+        <div style="background:#30363d;border-radius:3px;height:10px;width:70%"></div>
+        <div style="background:#30363d;border-radius:3px;height:10px;width:80%"></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <div style="background:#e6a817;border-radius:4px;height:20px;width:80px;opacity:0.8"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Wizard paso a paso</h3>
+      <p>Paso 1: Datos personales → Paso 2: Vehículo → Paso 3: Banco → Paso 4: Resultados. Guía al usuario.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="dashboard" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;border-radius:8px;height:200px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px;height:100%">
+        <div style="background:#161b22;border-radius:6px;width:140px;border:1px solid #30363d;padding:8px;display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <div style="background:#e6a817;border-radius:3px;height:10px;width:80%;opacity:0.9"></div>
+          <div style="background:#30363d;border-radius:3px;height:8px;width:90%"></div>
+          <div style="background:#30363d;border-radius:3px;height:8px;width:70%"></div>
+          <div style="background:#30363d;border-radius:3px;height:8px;width:85%"></div>
+          <div style="background:#30363d;border-radius:3px;height:8px;width:60%"></div>
+          <div style="background:#e6a817;border-radius:4px;height:18px;margin-top:auto;opacity:0.8"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+          <div style="display:flex;gap:6px">
+            <div style="background:#1c2330;border-radius:5px;flex:1;height:50px;border:1px solid #30363d;padding:6px"><div style="background:#2ea043;border-radius:2px;height:8px;width:60%;opacity:0.7"></div></div>
+            <div style="background:#1c2330;border-radius:5px;flex:1;height:50px;border:1px solid #30363d;padding:6px"><div style="background:#f85149;border-radius:2px;height:8px;width:70%;opacity:0.7"></div></div>
+          </div>
+          <div style="background:#161b22;border-radius:5px;flex:1;border:1px solid #30363d;padding:6px;display:flex;flex-direction:column;gap:4px">
+            <div style="background:#30363d;border-radius:2px;height:6px;width:100%"></div>
+            <div style="background:#30363d;border-radius:2px;height:6px;width:85%"></div>
+            <div style="background:#30363d;border-radius:2px;height:6px;width:90%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Dashboard con panel lateral</h3>
+      <p>Panel izquierdo con parámetros, panel derecho con KPIs y tabla en tiempo real. Más poderoso, más complejo.</p>
+    </div>
+  </div>
+</div>

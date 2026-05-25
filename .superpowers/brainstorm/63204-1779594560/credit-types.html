@@ -1,0 +1,42 @@
+<h2>¿Qué tipos de crédito incluye la plataforma?</h2>
+<p class="subtitle">Selecciona todos los que apliquen — cada uno tiene su propio simulador y lógica financiera</p>
+
+<div class="options" data-multiselect>
+
+  <div class="option" data-choice="vehicular" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>🚗 Crédito vehicular</h3>
+      <p>Ya diseñado. Cuota fija, bancos CO, seguros, score, eléctrico/híbrido, abonos. <strong>Fase 1.</strong></p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="hipotecario" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>🏠 Crédito hipotecario / VIS</h3>
+      <p>En pesos o UVR. Tasas fijas o variables. Estratos VIS / No VIS. Subsidio Mi Casa Ya. Seguros de vida y sismo obligatorios. Plazo hasta 30 años.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="consumo" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>💳 Crédito de consumo / libre inversión</h3>
+      <p>Sin garantía. Plazo 12–84 meses. Tasas más altas. Simula cuota, total intereses y costo efectivo total (CET).</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="tarjeta" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>💰 Tarjeta de crédito</h3>
+      <p>Simula tiempo y costo de pagar una deuda rotativa pagando mínimo vs cuota fija. Incluye tasa de usura vigente Colombia.</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:12px;background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.2);border-radius:8px;padding:10px;font-size:0.8rem;color:#58a6ff">
+  ℹ️ Microcrédito e ICETEX se pueden agregar después como módulos adicionales sin rediseñar la plataforma.
+</div>
