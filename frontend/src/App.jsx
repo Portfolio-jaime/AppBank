@@ -1,3 +1,28 @@
+import { createContext } from 'react'
+import useSimulaciones from './hooks/useSimulaciones.js'
+import styles from './App.module.css'
+import TopBar from './components/TopBar/TopBar.jsx'
+import Sidebar from './components/Sidebar/Sidebar.jsx'
+
+export const SimContext = createContext(null)
+
 export default function App() {
-  return <div className="app-root">CréditoIA — cargando...</div>
+  const { state, dispatch } = useSimulaciones()
+
+  return (
+    <SimContext.Provider value={{ state, dispatch }}>
+      <div className={styles.layout}>
+        <div className={styles.topbar}>
+          <TopBar />
+        </div>
+        <Sidebar />
+        <main className={styles.main}>
+          {/* Main content area — populated in later tasks */}
+        </main>
+        <div>
+          {/* AIInsightPanel placeholder — populated in a later task */}
+        </div>
+      </div>
+    </SimContext.Provider>
+  )
 }

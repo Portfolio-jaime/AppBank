@@ -1,0 +1,43 @@
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.item {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: var(--text-muted, var(--muted));
+}
+
+.item.active {
+  background: rgba(230, 168, 23, 0.125);
+  color: var(--text);
+}
+
+.newBtn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.newBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.emptyMsg {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  margin-top: 1rem;
+}
