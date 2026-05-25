@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar/Sidebar.jsx'
 import VehicularForm from './components/VehicularForm/VehicularForm.jsx'
 import SimuladorPanel from './components/SimuladorPanel/SimuladorPanel.jsx'
 import CompareView from './components/CompareView/CompareView.jsx'
+import AIInsightPanel from './components/AIInsightPanel/AIInsightPanel.jsx'
 
 export const SimContext = createContext(null)
 
@@ -29,9 +30,7 @@ export default function App() {
             <SimuladorPanel />
           )}
         </main>
-        <div>
-          {/* AIInsightPanel placeholder — populated in a later task */}
-        </div>
+        <AIInsightPanel />
       </div>
     </SimContext.Provider>
   )
