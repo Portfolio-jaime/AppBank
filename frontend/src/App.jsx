@@ -4,6 +4,7 @@ import styles from './App.module.css'
 import TopBar from './components/TopBar/TopBar.jsx'
 import Sidebar from './components/Sidebar/Sidebar.jsx'
 import VehicularForm from './components/VehicularForm/VehicularForm.jsx'
+import SimuladorPanel from './components/SimuladorPanel/SimuladorPanel.jsx'
 
 export const SimContext = createContext(null)
 
@@ -18,7 +19,7 @@ export default function App() {
         </div>
         <Sidebar />
         <main className={styles.main}>
-          <VehicularForm />
+          {state.activa === null ? <VehicularForm /> : <SimuladorPanel />}
         </main>
         <div>
           {/* AIInsightPanel placeholder — populated in a later task */}

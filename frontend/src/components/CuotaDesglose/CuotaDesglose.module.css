@@ -1,0 +1,29 @@
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 4px;
+  display: flex;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.capital {
+  background: var(--accent);
+}
+
+.interes {
+  background: var(--text-muted, #8b949e);
+}
+
+.labels {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+}
