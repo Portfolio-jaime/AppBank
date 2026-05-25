@@ -1,85 +1,87 @@
+import Groq from 'groq-sdk'
 import { Router } from 'express'
-import Anthropic from '@anthropic-ai/sdk'
 import { creditTools } from './creditTools.js'
 
 const router = Router()
-const client = new Anthropic()
+// Lazy-initialized so the server starts even without GROQ_API_KEY set
+let groq = null
+const getGroq = () => {
+  if (!groq) groq = new Groq()
+  return groq
+}
 
 router.post('/', async (req, res) => {
   const { messages, simulacion } = req.body
 
-  // Set SSE headers
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
-  res.flushHeaders()
 
-  const sendEvent = (data) => {
-    res.write(`data: ${JSON.stringify(data)}\n\n`)
-  }
+  const systemPrompt = `Eres un asesor financiero experto en créditos vehiculares colombianos.
+${simulacion ? `Simulación activa: cuota mensual ${simulacion.resultado?.cuota?.toFixed(0)} COP, tasa mensual ${simulacion.params?.tasaMensual}%, plazo ${simulacion.params?.plazoMeses} meses, total intereses ${simulacion.resultado?.totalIntereses?.toFixed(0)} COP.` : ''}
+Puedes usar herramientas para ajustar parámetros de la simulación.
+Responde siempre en español. Sé conciso y útil.`
 
   try {
-    // Build system prompt
-    let systemPrompt = 'Eres un asesor financiero experto en créditos vehiculares colombianos.\n'
-
-    if (simulacion) {
-      const { params, resultado } = simulacion
-      systemPrompt += `\nSimulación activa:\n`
-      if (resultado?.cuota != null) systemPrompt += `- Cuota mensual: $${resultado.cuota.toLocaleString('es-CO')}\n`
-      if (resultado?.totalIntereses != null) systemPrompt += `- Total intereses: $${resultado.totalIntereses.toLocaleString('es-CO')}\n`
-      if (params?.plazoMeses != null) systemPrompt += `- Plazo: ${params.plazoMeses} meses\n`
-      if (params?.tasaMensual != null) systemPrompt += `- Tasa mensual: ${params.tasaMensual}%\n`
-    }
-
-    systemPrompt += '\nPuedes usar herramientas para ajustar parámetros de la simulación.\nResponde siempre en español.'
-
-    // Track tool use blocks to emit tool_call when input is complete
-    const toolBlocks = {}
-
-    const stream = await client.messages.stream({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
-      system: systemPrompt,
-      messages,
-      tools: creditTools
+    const stream = await getGroq().chat.completions.create({
+      model: 'llama-3.3-70b-versatile',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        ...messages
+      ],
+      tools: creditTools,
+      tool_choice: 'auto',
+      stream: true,
+      max_tokens: 1024
     })
 
-    for await (const event of stream) {
-      const { type } = event
+    let toolCallsBuffer = {}
 
-      if (type === 'content_block_start') {
-        const block = event.content_block
-        if (block.type === 'tool_use') {
-          toolBlocks[event.index] = { name: block.name, id: block.id, inputJson: '' }
-          sendEvent({ type: 'tool_start', name: block.name, id: block.id })
-        }
-      } else if (type === 'content_block_delta') {
-        const { delta } = event
-        if (delta.type === 'text_delta') {
-          sendEvent({ type: 'text', text: delta.text })
-        } else if (delta.type === 'input_json_delta') {
-          if (toolBlocks[event.index]) {
-            toolBlocks[event.index].inputJson += delta.partial_json
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0]?.delta
+
+      if (!delta) continue
+
+      // Text content
+      if (delta.content) {
+        res.write(`data: ${JSON.stringify({ type: 'text', text: delta.content })}\n\n`)
+      }
+
+      // Tool calls (streamed in chunks)
+      if (delta.tool_calls) {
+        for (const tc of delta.tool_calls) {
+          const idx = tc.index
+          if (!toolCallsBuffer[idx]) {
+            toolCallsBuffer[idx] = { id: tc.id || '', name: tc.function?.name || '', arguments: '' }
+            res.write(`data: ${JSON.stringify({ type: 'tool_start', name: tc.function?.name || '' })}\n\n`)
+          }
+          if (tc.function?.arguments) {
+            toolCallsBuffer[idx].arguments += tc.function.arguments
           }
         }
-      } else if (type === 'content_block_stop') {
-        const block = toolBlocks[event.index]
-        if (block) {
+      }
+
+      // Finish reason
+      const finishReason = chunk.choices[0]?.finish_reason
+      if (finishReason === 'tool_calls') {
+        for (const tc of Object.values(toolCallsBuffer)) {
           try {
-            const input = block.inputJson ? JSON.parse(block.inputJson) : {}
-            sendEvent({ type: 'tool_call', name: block.name, input })
-          } catch {
-            sendEvent({ type: 'tool_call', name: block.name, input: {} })
-          }
-          delete toolBlocks[event.index]
+            const input = JSON.parse(tc.arguments)
+            res.write(`data: ${JSON.stringify({ type: 'tool_call', name: tc.name, input })}\n\n`)
+          } catch {}
         }
+        toolCallsBuffer = {}
+      }
+
+      if (finishReason === 'stop') {
+        break
       }
     }
 
-    sendEvent({ type: 'done' })
+    res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`)
     res.end()
   } catch (err) {
-    sendEvent({ type: 'error', message: err.message || 'Unknown error' })
+    res.write(`data: ${JSON.stringify({ type: 'error', message: err.message })}\n\n`)
     res.end()
   }
 })
