@@ -11,15 +11,7 @@ export default function Sidebar() {
   }
 
   function handleNew() {
-    dispatch({
-      type: 'ADD_SIMULACION',
-      payload: {
-        id: crypto.randomUUID(),
-        params: {},
-        resultado: null,
-        createdAt: Date.now(),
-      },
-    })
+    dispatch({ type: 'SET_ACTIVA', payload: null })
   }
 
   function handleComparar(e, id) {

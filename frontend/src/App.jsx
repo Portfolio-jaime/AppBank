@@ -24,7 +24,7 @@ export default function App() {
         <main className={styles.main}>
           {mode === 'compare' ? (
             <CompareView />
-          ) : state.activa === null ? (
+          ) : state.activa === null || !state.simulaciones.find(s => s.id === state.activa)?.resultado ? (
             <VehicularForm />
           ) : (
             <SimuladorPanel />

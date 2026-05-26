@@ -17,7 +17,7 @@ export default function SimuladorPanel({ simulacionId }) {
   const id = simulacionId ?? state.activa
   const sim = state.simulaciones.find(s => s.id === id)
 
-  if (!sim) {
+  if (!sim || !sim.resultado) {
     return (
       <p className={styles.empty}>Selecciona o crea una simulación</p>
     )
